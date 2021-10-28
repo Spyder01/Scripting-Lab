@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hour Converter</title>
+</head>
+<body>
+ 
+    <H2>Select the function</H2>
+    <select id="select" default="hour">
+        <option value="hour">Hour Converter</option>
+        <option value="age">Age Converter</option>
+    </select>
+    <form id="hourConverter">
+            <h2>Enter the number of minutes</h2>
+            <input type="number" id="minutes" min=0 default=0 required/>
+            <button type="submit" id="HourSubmit">
+                Submit
+            </button>
+        </form>
+
+    <form id="ageConverter">
+        
+            <h2>
+                Enter your date of birth.
+            </h2>
+            <input type="date" id="date" required/>
+            <button type="submit" id="AgeSubmit">
+                Submit
+            </button>
+
+        </form>
+        <div>
+            Answer: <span id="result">
+
+            </span> 
+        </div>
+    <script>
+        const hourConverter = document.getElementById("hourConverter");
+        const ageConverter = document.getElementById("ageConverter");
+
+        const Select = document.getElementById("select");
+        const Minutes = document.getElementById("minutes");
+        const date = document.getElementById("date");
+        const result = document.getElementById("result");
+
+
+        //Functions
+        const MinuteToHour = minutes=>{
+            const hour = minutes/60;
+            console.log(hour);
+            const Hours = Math.floor(hour);
+            const remMinutes = (minutes%60);
+
+            return `${Hours}:${remMinutes}`;
+
+        }
+
+        const DateToAge = date=>{
+            const today = new Date();
+            const currDate = today.getDate ();
+            const currMonth = today.getMonth ();
+            const currYear = today.getFullYear ();
+
+            const DateArray = date.split("-");
+            var Age = currYear - DateArray [0];
+
+            if (currMonth < DateArray [1]) 
+                Age--;
+            return Age;
+        }
+
+
+
+
+
+        Select.addEventListener("change", e=>{
+            result.innerText = ""
+            if (e.target.value==="hour") {
+                hourConverter.style.display = "block";
+                ageConverter.style.display = "none";
+            } else {
+                ageConverter.style.display = "block";
+                hourConverter.style.display = "none";
+            }
+        })
+
+        ageConverter.addEventListener("submit", e=>{
+            e.preventDefault ();
+          const age =  DateToAge (date.value);
+
+          result.innerText = `${age} years old`;
+
+        })
+
+        hourConverter.addEventListener ("submit", e=>{
+            e.preventDefault ();
+            const ans = MinuteToHour (minutes.value);
+            result.innerText = ans;
+        })
+
+
+        window.onload = ()=> {
+            Select.value = "hour";
+            ageConverter.style.display = "none";
+        }
+
+
+
+
+        
+    </script>
+
+
+</body>
+</html>
